@@ -1,5 +1,39 @@
 # program-6
+# small
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+# Generate or load the dataset
+data = {
+    
+    'Income': [365,654,876,1234,6754],
+    'Spending Score': [78,56,98,66,55]
+}
+df = pd.DataFrame(data)
+plt.scatter(df['Income'], df['Spending Score'])
+plt.xlabel('Income')
+plt.ylabel('Spending Score')
+plt.title('Customer Data Before Clustering')
+plt.show()
+
+sse = []
+k_rng = range(1,5)
+for k in k_rng:
+    km = KMeans(n_clusters=k)
+    km.fit(df[['Income','Spending Score']])
+    sse.append(km.inertia_)
+
+plt.xlabel('K')
+plt.ylabel('Sum of squared error')
+plt.plot(k_rng,sse)
+
+# -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+# long
 from sklearn.cluster import KMeans
 import pandas as pd
 from matplotlib import pyplot as plt
