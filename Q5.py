@@ -19,7 +19,7 @@ df[df.target==1].head()
 df0 = df[df.target==0]
 df1 = df[df.target==1]
 df2 = df[df.target==2]
-df2.head()
+# df2.head()
 
 plt.xlabel('Sepal Length')
 plt.ylabel('Sepal Width')
@@ -29,8 +29,8 @@ plt.scatter(df1['sepal length (cm)'], df1['sepal width (cm)'],color="blue",marke
 X = df.drop(['target'], axis='columns')
 y = df.target
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
-len(X_train)
-len(X_test)
+# len(X_train)
+# len(X_test)
 
 knn = KNeighborsClassifier(n_neighbors=10)
 knn.fit(X_train, y_train)
