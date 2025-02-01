@@ -66,3 +66,51 @@ print(f"F-statistic: {ols_model.fvalue:.2f}")
 print(f"t-statistic for AdvertisingExpenditure: {ols_model.tvalues['AdvertisingExpenditure']:.2f}")
 print(f"t-statistic for StoreLocation: {ols_model.tvalues['StoreLocation']:.2f}")
 print(f"t-statistic for Competition: {ols_model.tvalues['Competition']:.2f}")
+# ----------------------------------------------------------------------(small code)
+
+
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+
+# Load the dataset
+df = pd.read_csv('sales.csv')
+
+# Function to perform simple linear regression and plot results
+def analyze_feature(feature, target, title, xlabel):
+    x = df[[feature]]
+    y = df[[target]]
+    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state=42)
+    model = LinearRegression().fit(x_train, y_train)
+    print(f"\nAnalysis for {feature}:")
+    print(f"Coefficients: {model.coef_}")
+    print(f"Intercept: {model.intercept_}")
+    plt.scatter(x_train, y_train, color='red', label='Training Data')
+    plt.scatter(x_test, y_test, color='blue', label='Testing Data')
+    plt.plot(x_train, model.predict(x_train), color='green', label='Regression Line')
+    plt.xlabel(xlabel)
+    plt.ylabel('Sales Revenue')
+    plt.title(title)
+    plt.legend()
+    plt.show()
+
+# Analyze each feature
+analyze_feature('AdvertisingExpenditure', 'SalesRevenue', 'Advertising Expenditure vs Sales Revenue', 'Advertising Expenditure')
+analyze_feature('StoreLocation', 'SalesRevenue', 'Store Location vs Sales Revenue', 'Store Location')
+analyze_feature('Competition', 'SalesRevenue', 'Competition vs Sales Revenue', 'Competition')
+
+# Multiple Linear Regression
+X = df[['AdvertisingExpenditure', 'StoreLocation', 'Competition']]
+Y = df['SalesRevenue']
+X = sm.add_constant(X)
+ols_model = sm.OLS(Y, X).fit()
+
+# Print statistical analysis
+print("\nStatistical Analysis:")
+print(f"F-statistic: {ols_model.fvalue:.2f}")
+print(f"t-statistic for AdvertisingExpenditure: {ols_model.tvalues['AdvertisingExpenditure']:.2f}")
+print(f"t-statistic for StoreLocation: {ols_model.tvalues['StoreLocation']:.2f}")
+print(f"t-statistic for Competition: {ols_model.tvalues['Competition']:.2f}")
